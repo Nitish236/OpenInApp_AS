@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 // Sub Task Schema
 const subTaskSchema = new mongoose.Schema({
-  task_id: {
+  taskId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Task",
     required: [true, "Task Id is required"],

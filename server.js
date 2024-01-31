@@ -1,6 +1,7 @@
-// Import necessary modules
+require("express-async-errors");
 const express = require("express");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 const http = require("http");
 const dotenv = require("dotenv");
 
@@ -14,7 +15,11 @@ const connectToDB = require("./database/db");
 const errorMiddleware = require("./middleware/error-handler");
 const notFoundMiddleware = require("./middleware/not-found");
 
-// Import routes
+// Import
+const authRouters = require("./routes/authRoutes");
+const userRouters = require("./routes/userRoutes");
+const taskRouters = require("./routes/taskRoutes");
+const subTaskRouters = require("./routes/subTasksRoutes");
 
 // Create an Express app
 const app = express();
@@ -25,10 +30,21 @@ const server = http.createServer(app);
 // Middleware to parse JSON and URL-encoded request bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-// Use routes for authentication
+// Routes for authentication
+app.use("/auth", authRouters);
 
-// Use error and not found middlewares
+// Routes for Users
+app.use("/user", userRouters);
+
+// Route for Tasks
+app.use("/tasks", taskRouters);
+
+// Route for Sub Tasks
+app.use("/subtasks", subTaskRouters);
+
+// Middlewares
 app.use(errorMiddleware); // Middleware to handle all thrown errors
 app.use(notFoundMiddleware); // Middleware to handle Routes that are not there
 
@@ -87,3 +103,7 @@ if (require.main === module) {
 
 // Export the server instance
 module.exports = server;
+
+// Import Cron Jobs
+const updatePriorityJob = require("./cron/updatePriority");
+const voiceCallerJob = require("./cron/voiceCaller");

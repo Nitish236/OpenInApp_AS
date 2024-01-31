@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
+/* -------------------------------------------------------------------------------- */
+
 // Construct the DB URI String
 const DB_URI =
   "mongodb+srv://" +
