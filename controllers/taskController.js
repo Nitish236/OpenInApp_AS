@@ -80,26 +80,20 @@ const getTasks = async (req, res) => {
     throw new BadRequestError("Invalid priority value");
   }
 
-  // Parse priority
-  priority = parseInt(priority);
-
-  // Parse due_date
-  let parsedDueDate;
-  if (due_date) {
-    parsedDueDate = new Date(due_date);
-    if (isNaN(parsedDueDate.getTime())) {
-      throw new BadRequestError("Invalid due_date format");
-    }
-  }
-
   // Aggregation pipeline
-  const pipeline = [];
+  let pipeline = [];
 
   if (priority) {
+    // Parse priority
+    priority = parseInt(priority);
     pipeline.push({ $match: { priority } });
   }
 
   if (due_date) {
+    const parsedDueDate = new Date(due_date);
+    if (isNaN(parsedDueDate.getTime())) {
+      throw new BadRequestError("Invalid due_date format");
+    }
     pipeline.push({ $match: { due_date: { $lte: parsedDueDate } } });
   }
 

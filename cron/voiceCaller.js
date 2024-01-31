@@ -86,6 +86,7 @@ cron.schedule(process.env.VOICECALL_TIME, async () => {
           );
         }
       } catch (error) {
+        console.log(error);
         console.error(
           `Error initiating voice call for task ID ${task._id}: ${error.message}`
         );
