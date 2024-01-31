@@ -12,7 +12,6 @@ const SubTask = require("../models/subTaskModel");
 const createSubTask = async (req, res) => {
   // Retrieve Data
   const { taskId } = req.body;
-  console.log("H - ", taskId);
 
   // Validate input
   if (!taskId || !mongoose.Types.ObjectId.isValid(taskId)) {

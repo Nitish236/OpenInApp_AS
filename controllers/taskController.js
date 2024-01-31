@@ -93,18 +93,17 @@ const getTasks = async (req, res) => {
   }
 
   // Aggregation pipeline
-  const pipeline = [
-    priority
-      ? {
-          $match: {
-            priority,
-          },
-        }
-      : {
-          $match: {
-            due_date: { $lte: parsedDueDate },
-          },
-        },
+  const pipeline = [];
+
+  if (priority) {
+    pipeline.push({ $match: { priority } });
+  }
+
+  if (due_date) {
+    pipeline.push({ $match: { due_date: { $lte: parsedDueDate } } });
+  }
+
+  pipeline.push(
     {
       $sort: {
         priority: 1, // Sort by priority in ascending order
@@ -123,8 +122,8 @@ const getTasks = async (req, res) => {
         updated_at: 0,
         deleted_at: 0,
       },
-    },
-  ];
+    }
+  );
 
   // Get Tasks
   const userTasks = await Task.aggregate(pipeline);
