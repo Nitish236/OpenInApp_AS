@@ -49,13 +49,11 @@ const getSubTasks = async (req, res) => {
   }
 
   // Build the aggregation pipeline
-  const pipeline = [
-    {
-      $match: {
-        taskId: new mongoose.Types.ObjectId(taskId),
-      },
-    },
-  ];
+  const pipeline = [];
+
+  if (taskId) {
+    pipeline.push({ $match: { taskId } });
+  }
 
   // Get Sub Tasks
   const userSubTasks = await SubTask.aggregate(pipeline);
