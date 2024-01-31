@@ -1,4 +1,4 @@
-# MERAKAL_AS
+# OPENINAPP_AS
 
 <!-- ABOUT THE PROJECT -->
 
